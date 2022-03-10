@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Row from "./Row";
 import TableHeader from "./TableHeader";
+import DeleteModal from "../Modal/DeleteModal";
 
 const StyledTable = styled.div`
   display: flex;
@@ -11,6 +12,22 @@ const StyledTable = styled.div`
 `;
 
 const Table = (props) => {
+  const [isDelete, setIsDelete] = useState(false);
+
+  const closeHandler = () => {
+    console.log("Закрыть");
+    setIsDelete(false);
+  }
+
+  const openHandler = () => {
+    setIsDelete(true);
+  }
+
+  const deleteHandler = () => {
+    console.log("Удалить запись");
+  }
+  
+
   return (
     <StyledTable>
       <TableHeader />
@@ -24,9 +41,11 @@ const Table = (props) => {
             name={name}
             organisationId={user.organisationId}
             eMail={user.email}
+            onDelete={openHandler}
           />
         );
       })}
+      {isDelete && <DeleteModal onClose={closeHandler} onDelete={deleteHandler}/>}
     </StyledTable>
   );
 };

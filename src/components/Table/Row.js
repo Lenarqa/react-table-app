@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../store/userContext";
-// import organisationsJson from "../../data/organisations.json";
 
 const StyledRow = styled.div`
   cursor: default;
@@ -25,9 +24,6 @@ const RowCell = styled.div`
 `;
 
 const Row = (props) => {
-  //   const [organisation, setOrganisation] = useState(
-  //     organisationsJson.organisations
-  //   );
   const userCtx = useContext(UserContext);
   const [selected, setSelected] = useState(false);
 
@@ -53,7 +49,7 @@ const Row = (props) => {
         <FontAwesomeIcon
           style={{ cursor: "pointer" }}
           icon={faTrashAlt}
-          onClick={() => console.log("Удалить")}
+          onClick={props.onDelete}
         />
       </RowCell>
     </StyledRow>

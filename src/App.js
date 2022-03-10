@@ -11,6 +11,7 @@ const StyledApp = styled.div`
   width: 80%;
   height: 100%;
   margin: 0 auto;
+  position: relative;
 `;
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
     <StyledApp>
       <ActionsSection>
         <Button
-          clickHandler={() => {
+          onClick={() => {
             console.log("Добавить пользователя");
           }}
         >
