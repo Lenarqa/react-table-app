@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { createGlobalStyle } from "styled-components";
+import UserContextProvider from "./store/userContext";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -14,8 +15,10 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
   <>
-    <GlobalStyle />
-    <App />
+    <UserContextProvider>
+      <GlobalStyle />
+      <App />
+    </UserContextProvider>
   </>,
   document.getElementById("root")
 );

@@ -14,14 +14,19 @@ const Table = (props) => {
   return (
     <StyledTable>
       <TableHeader />
-      {props.users.map((user) => (
-        <Row
-          key={user.id}
-          name={`${user.firstName} ${user.lastName} ${user.middleName}`}
-          organisationId={user.organisationId}
-          eMail={user.email}
-        />
-      ))}
+      {props.users.map((user) => {
+        const name = `${user.firstName} ${user.lastName
+          .toString()
+          .substring(0, 1)}.${user.middleName.toString().substring(0, 1)}.`;
+        return (
+          <Row
+            key={user.id}
+            name={name}
+            organisationId={user.organisationId}
+            eMail={user.email}
+          />
+        );
+      })}
     </StyledTable>
   );
 };

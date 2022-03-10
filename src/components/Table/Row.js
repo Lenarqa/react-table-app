@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import organisationsJson from "../../data/organisations.json";
+import { UserContext } from "../../store/userContext";
+// import organisationsJson from "../../data/organisations.json";
 
 const StyledRow = styled.div`
+  cursor: default;
   display: flex;
   width: 100%;
   border-bottom: 1px solid black;
+  background-color: ${(props) => (props.selected ? "lightseagreen" : "")};
 `;
 
 const RowCell = styled.div`
+  cursor: default;
   display: flex;
   align-items: center;
   justify-content: ${(props) => (props.isLast ? "space-around" : "center")};
@@ -21,12 +25,13 @@ const RowCell = styled.div`
 `;
 
 const Row = (props) => {
-  const [organisation, setOrganisation] = useState(
-    organisationsJson.organisations
-  );
+  //   const [organisation, setOrganisation] = useState(
+  //     organisationsJson.organisations
+  //   );
+  const userCtx = useContext(UserContext);
   const [selected, setSelected] = useState(false);
 
-  const curOrganisation = organisation.find(
+  const curOrganisation = userCtx.organisation.find(
     (org) => org.id === props.organisationId
   );
 
@@ -41,10 +46,12 @@ const Row = (props) => {
       <RowCell>{props.eMail}</RowCell>
       <RowCell isLast={true}>
         <FontAwesomeIcon
+          style={{ cursor: "pointer" }}
           icon={faPencilAlt}
           onClick={() => console.log("Редактировать")}
         />
         <FontAwesomeIcon
+          style={{ cursor: "pointer" }}
           icon={faTrashAlt}
           onClick={() => console.log("Удалить")}
         />

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import ActionsSection from "./components/ActionsSection";
 import Button from "./components/UI/Button";
 import Table from "./components/Table/Table";
+import { UserContext } from "./store/userContext";
 
-import usersJson from "./data/users.json";
+// import usersJson from "./data/users.json";
 
 const StyledApp = styled.div`
   width: 80%;
@@ -13,7 +14,8 @@ const StyledApp = styled.div`
 `;
 
 function App() {
-  const [users, setUsers] = useState(usersJson.users);
+  // const [users, setUsers] = useState(usersJson.users);
+  const userCtx = useContext(UserContext);
 
   return (
     <StyledApp>
@@ -26,7 +28,7 @@ function App() {
           Добавить пользователя
         </Button>
       </ActionsSection>
-      <Table users={users}/>
+      <Table users={userCtx.users}/>
     </StyledApp>
   );
 }
