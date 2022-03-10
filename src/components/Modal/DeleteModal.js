@@ -39,11 +39,11 @@ const DeleteModal = (props) => {
   return (
     <StyledDelete>
       <Header>
-        <h2>Удалить?</h2>
+        <h2>Удаление</h2>
       </Header>
       <Actions>
-        <Button onClick={props.onClose}>Нет</Button>
-        <Button onClick={props.onDelete}>Да</Button>
+        <Button onClick={props.onClose}>Отмена</Button>
+        <Button onClick={props.onDelete}>Ок</Button>
       </Actions>
     </StyledDelete>
   );

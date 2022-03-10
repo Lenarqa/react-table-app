@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import ActionsSection from "./components/ActionsSection";
 import Button from "./components/UI/Button";
 import Table from "./components/Table/Table";
 import { UserContext } from "./store/userContext";
+import AddUserModal from "./components/Modal/AddUserModal";
 
-// import usersJson from "./data/users.json";
 
 const StyledApp = styled.div`
   width: 80%;
@@ -15,21 +15,28 @@ const StyledApp = styled.div`
 `;
 
 function App() {
-  // const [users, setUsers] = useState(usersJson.users);
   const userCtx = useContext(UserContext);
+  const [isAddUser, setIsAddUser] = useState(false);
+
+  const openAddUser = () => {
+    setIsAddUser(true);
+  }
+
+  const closeAddUser = () => {
+    setIsAddUser(false);
+  }
 
   return (
     <StyledApp>
       <ActionsSection>
         <Button
-          onClick={() => {
-            console.log("Добавить пользователя");
-          }}
+          onClick={openAddUser}
         >
           Добавить пользователя
         </Button>
       </ActionsSection>
       <Table users={userCtx.users}/>
+      {isAddUser && <AddUserModal onClose={closeAddUser}/>}
     </StyledApp>
   );
 }
