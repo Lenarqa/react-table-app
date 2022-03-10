@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import organisationsJson from "../../data/organisations.json";
 
 const StyledRow = styled.div`
   display: flex;
@@ -21,10 +22,23 @@ const RowCell = styled.div`
 `;
 
 const Row = (props) => {
+  const [organisation, setOrganisation] = useState(
+    organisationsJson.organisations
+  );
+
+  let curOrganisation;
+  if (!props.isHeader) {
+    curOrganisation = organisation.find(
+      (org) => org.id === props.organisationId
+    );
+  }
+
   return (
     <StyledRow isHeader={props.isHeader}>
       <RowCell>{props.name}</RowCell>
-      <RowCell>{props.organization}</RowCell>
+      <RowCell>
+        {props.isHeader ? "Организация" : curOrganisation.shortName}
+      </RowCell>
       <RowCell>{props.eMail}</RowCell>
       <RowCell isLast={true}>
         {!props.isHeader && (
