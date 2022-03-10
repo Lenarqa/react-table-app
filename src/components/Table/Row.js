@@ -8,7 +8,6 @@ const StyledRow = styled.div`
   display: flex;
   width: 100%;
   border-bottom: 1px solid black;
-  background-color: ${(props) => (props.isHeader ? "#ccc" : "white")};
 `;
 
 const RowCell = styled.div`
@@ -25,34 +24,30 @@ const Row = (props) => {
   const [organisation, setOrganisation] = useState(
     organisationsJson.organisations
   );
+  const [selected, setSelected] = useState(false);
 
-  let curOrganisation;
-  if (!props.isHeader) {
-    curOrganisation = organisation.find(
-      (org) => org.id === props.organisationId
-    );
-  }
+  const curOrganisation = organisation.find(
+    (org) => org.id === props.organisationId
+  );
+
+  const selectHandler = () => {
+    setSelected((prev) => !prev);
+  };
 
   return (
-    <StyledRow isHeader={props.isHeader}>
+    <StyledRow onClick={selectHandler} selected={selected}>
       <RowCell>{props.name}</RowCell>
-      <RowCell>
-        {props.isHeader ? "Организация" : curOrganisation.shortName}
-      </RowCell>
+      <RowCell>{curOrganisation.shortName}</RowCell>
       <RowCell>{props.eMail}</RowCell>
       <RowCell isLast={true}>
-        {!props.isHeader && (
-          <>
-            <FontAwesomeIcon
-              icon={faPencilAlt}
-              onClick={() => console.log("Редактировать")}
-            />
-            <FontAwesomeIcon
-              icon={faTrashAlt}
-              onClick={() => console.log("Удалить")}
-            />
-          </>
-        )}
+        <FontAwesomeIcon
+          icon={faPencilAlt}
+          onClick={() => console.log("Редактировать")}
+        />
+        <FontAwesomeIcon
+          icon={faTrashAlt}
+          onClick={() => console.log("Удалить")}
+        />
       </RowCell>
     </StyledRow>
   );

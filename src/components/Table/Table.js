@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Row from "./Row";
+import TableHeader from "./TableHeader";
 
 const StyledTable = styled.div`
   display: flex;
@@ -12,18 +13,13 @@ const StyledTable = styled.div`
 const Table = (props) => {
   return (
     <StyledTable>
-      <Row
-        name="ФИО"
-        organisationId="Организация"
-        eMail="E-Mail"
-        isHeader={true}
-      />
+      <TableHeader />
       {props.users.map((user) => (
         <Row
+          key={user.id}
           name={`${user.firstName} ${user.lastName} ${user.middleName}`}
           organisationId={user.organisationId}
           eMail={user.email}
-          isHeader={false}
         />
       ))}
     </StyledTable>
