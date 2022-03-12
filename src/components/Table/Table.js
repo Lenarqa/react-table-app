@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import Row from "./Row";
 import TableHeader from "./TableHeader";
 import DeleteModal from "../Modal/DeleteModal";
+import { UserContext } from "../../store/userContext";
 
 const StyledTable = styled.div`
   display: flex;
@@ -13,20 +14,22 @@ const StyledTable = styled.div`
 
 const Table = (props) => {
   const [isDelete, setIsDelete] = useState(false);
+  const userCtx = useContext(UserContext);
 
   const closeHandler = () => {
     console.log("Закрыть");
     setIsDelete(false);
-  }
+  };
 
   const openHandler = () => {
     setIsDelete(true);
-  }
+  };
 
   const deleteHandler = () => {
-    console.log("Удалить запись");
-  }
-  
+    userCtx.addSelectedUser();
+    userCtx.deleteUser();
+    setIsDelete(false);
+  };
 
   return (
     <StyledTable>
@@ -38,6 +41,7 @@ const Table = (props) => {
         return (
           <Row
             key={user.id}
+            id={user.id}
             name={name}
             organisationId={user.organisationId}
             eMail={user.email}
@@ -45,7 +49,9 @@ const Table = (props) => {
           />
         );
       })}
-      {isDelete && <DeleteModal onClose={closeHandler} onDelete={deleteHandler}/>}
+      {isDelete && (
+        <DeleteModal onClose={closeHandler} onDelete={deleteHandler} />
+      )}
     </StyledTable>
   );
 };

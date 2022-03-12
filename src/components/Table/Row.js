@@ -9,7 +9,7 @@ const StyledRow = styled.div`
   display: flex;
   width: 100%;
   border-bottom: 1px solid black;
-  background-color: ${(props) => (props.selected ? "lightseagreen" : "")};
+  background-color: ${(props) => (props.selected ? "#b2dcee" : "")};
 `;
 
 const RowCell = styled.div`
@@ -20,7 +20,7 @@ const RowCell = styled.div`
   font-size: 1.8rem;
   padding: 10px 0;
   border-right: ${(props) => (props.isLast ? "" : "1px solid black")};
-  width: ${(props) => (props.isLast ? "10%" : "30%")};
+  width: ${(props) => (props.isLast ? "10%" : "33%")};
 `;
 
 const Row = (props) => {
@@ -33,13 +33,21 @@ const Row = (props) => {
 
   const selectHandler = () => {
     setSelected((prev) => !prev);
+    userCtx.addSelectedUser(props.id);
   };
 
+  const deleteHandler = () => {
+    props.onDelete();
+    userCtx.addSelectedUser(props.id);
+  }
+
   return (
-    <StyledRow onClick={selectHandler} selected={selected}>
-      <RowCell>{props.name}</RowCell>
-      <RowCell>{curOrganisation.shortName}</RowCell>
-      <RowCell>{props.eMail}</RowCell>
+    <StyledRow selected={selected}>
+      <div style={{ width: "100%", display: "flex" }} onClick={selectHandler}>
+        <RowCell>{props.name}</RowCell>
+        <RowCell>{curOrganisation.shortName}</RowCell>
+        <RowCell>{props.eMail}</RowCell>
+      </div>
       <RowCell isLast={true}>
         <FontAwesomeIcon
           style={{ cursor: "pointer" }}
@@ -49,7 +57,7 @@ const Row = (props) => {
         <FontAwesomeIcon
           style={{ cursor: "pointer" }}
           icon={faTrashAlt}
-          onClick={props.onDelete}
+          onClick={deleteHandler}
         />
       </RowCell>
     </StyledRow>
