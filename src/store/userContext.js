@@ -14,11 +14,21 @@ export const UserContext = React.createContext({
 
 const UserContextProvider = (props) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [users, setUsers] = useState(usersJson.users);
+  const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [organisation, setOrganisation] = useState(
     organisationsJson.organisations
   );
+
+  useEffect(() => {
+    if (!localStorage.getItem("users")) {
+      setUsers(usersJson.users);
+    } else {
+      let users = JSON.parse(localStorage.getItem("users"));
+      setUsers(users);
+    }
+    setIsLoading(false);
+  }, []);
 
   const addUserHandler = (
     firstName,
@@ -31,17 +41,21 @@ const UserContextProvider = (props) => {
       middleName = "";
     }
 
-    setUsers((prev) => [
-      {
-        id: Math.random(),
-        firstName: firstName,
-        lastName: lastName,
-        middleName: middleName,
-        organisationId: parseInt(organisationId),
-        email: email,
-      },
-      ...prev,
-    ]);
+    setUsers((prev) => {
+      let updatedUsers = [
+        {
+          id: Math.random(),
+          firstName: firstName,
+          lastName: lastName,
+          middleName: middleName,
+          organisationId: parseInt(organisationId),
+          email: email,
+        },
+        ...prev,
+      ];
+      localStorage.setItem("users", JSON.stringify(updatedUsers));
+      return updatedUsers;
+    });
   };
 
   const selectUserHandler = (userId) => {
@@ -62,17 +76,19 @@ const UserContextProvider = (props) => {
       selectedUsers.map((id) => {
         prev = prev.filter((user) => user.id !== id);
       });
+      localStorage.setItem("users", JSON.stringify(prev));
       return prev;
     });
     setSelectedUsers([]);
   };
 
   const editUserHandler = (editUser) => {
-    setUsers(prev => {
-      let updateUser = prev.filter(user => user.id !== editUser.id);
+    setUsers((prev) => {
+      let updateUser = prev.filter((user) => user.id !== editUser.id);
+      localStorage.setItem("users", JSON.stringify([editUser, ...updateUser]));
       return [editUser, ...updateUser];
     });
-  }
+  };
 
   const contextValue = {
     isLoading: isLoading,

@@ -88,7 +88,7 @@ const AddUserModal = (props) => {
     if (
       firstName.trim() === "" ||
       lastName.trim() === "" ||
-      organisationId === 0 ||
+      parseInt(organisationId) === 0 ||
       organisationId === "" ||
       email.trim() === ""
     ) {

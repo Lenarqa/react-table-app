@@ -5,7 +5,7 @@ import Button from "./components/UI/Button";
 import Table from "./components/Table/Table";
 import { UserContext } from "./store/userContext";
 import AddUserModal from "./components/Modal/AddUserModal";
-
+import LoadingIndicator from "./components/UI/LoadingIndicator";
 
 const StyledApp = styled.div`
   width: 80%;
@@ -20,23 +20,24 @@ function App() {
 
   const openAddUser = () => {
     setIsAddUser(true);
-  }
+  };
 
   const closeAddUser = () => {
     setIsAddUser(false);
-  }
+  };
 
   return (
     <StyledApp>
-      <ActionsSection>
-        <Button
-          onClick={openAddUser}
-        >
-          Добавить пользователя
-        </Button>
-      </ActionsSection>
-      <Table users={userCtx.users}/>
-      {isAddUser && <AddUserModal onClose={closeAddUser}/>}
+      {userCtx.isLoading && <LoadingIndicator />}
+      {!userCtx.isLoading && (
+        <>
+          <ActionsSection>
+            <Button onClick={openAddUser}>Добавить пользователя</Button>
+          </ActionsSection>
+          <Table users={userCtx.users} />
+          {isAddUser && <AddUserModal onClose={closeAddUser} />}
+        </>
+      )}
     </StyledApp>
   );
 }
