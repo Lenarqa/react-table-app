@@ -73,7 +73,7 @@ const AddUserModal = (props) => {
   const firstNameRef = useRef("");
   const lastNameRef = useRef("");
   const middleNameRef = useRef("");
-  const organisationIdRef = useRef(-1);
+  const organisationIdRef = useRef(0);
   const emailRef = useRef("");
 
   const validationHandler = (e) => {
@@ -88,7 +88,7 @@ const AddUserModal = (props) => {
     if (
       firstName.trim() === "" ||
       lastName.trim() === "" ||
-      organisationId === -1 ||
+      organisationId === 0 ||
       organisationId === "" ||
       email.trim() === ""
     ) {
@@ -125,8 +125,9 @@ const AddUserModal = (props) => {
         <div>
           <label htmlFor="organisationId">Организация</label>
           <select id="organisationId" ref={organisationIdRef}>
+            <option key={0} value={0}>Выберите организацию</option>
             {userCtx.organisation.map((org) => (
-              <option key={org.id} value={org.id}>{org.shortName}</option>
+              <option key={org.id+1} value={org.id}>{org.shortName}</option>
             ))}
           </select>
         </div>

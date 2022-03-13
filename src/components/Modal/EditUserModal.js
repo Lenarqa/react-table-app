@@ -90,23 +90,31 @@ const EditUserModal = (props) => {
     ) {
       return;
     }
-    console.log(firstName, lastName, middleName, organisationId, email);
 
+    if (!email.includes("@")) {
+        console.log("Неправильный эмейл");
+    }
+    console.log(organisationId);
+
+    userCtx.editUser({
+      id: props.user.id,
+      firstName: firstName,
+      lastName: lastName,
+      middleName: middleName,
+      organisationId: parseInt(organisationId),
+      email: email,
+    });
     props.onClose();
   };
 
   const changeFirstNameHandler = (e) => {
     e.preventDefault();
-    if (e.target.value.trim() !== "") {
-      setFirstName(e.target.value);
-    }
+    setFirstName(e.target.value);
   };
 
   const changeLastNameHandler = (e) => {
     e.preventDefault();
-    if (e.target.value.trim() !== "") {
-      setLastName(e.target.value);
-    }
+    setLastName(e.target.value);
   };
 
   const changeMiddleNameHandler = (e) => {
@@ -116,16 +124,12 @@ const EditUserModal = (props) => {
 
   const changeOrganisationIdHandler = (e) => {
     e.preventDefault();
-    if (e.target.value.trim() !== "") {
-      setOrganisationId(e.target.value);
-    }
+    setOrganisationId(e.target.value);
   };
 
   const changeEmailHandler = (e) => {
     e.preventDefault();
-    if (e.target.value.trim() !== "" && e.target.value.includes("@")) {
-      setEmail(e.target.value);
-    }
+    setEmail(e.target.value);
   };
 
   return (

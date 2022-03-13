@@ -31,6 +31,8 @@ const Row = (props) => {
   const [selected, setSelected] = useState(false);
   const userCtx = useContext(UserContext);
 
+  console.log(typeof props.organisationId);
+
   const curOrganisation = userCtx.organisation.find(
     (org) => org.id === props.organisationId
   );
