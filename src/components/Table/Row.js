@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../store/userContext";
 import DeleteModal from "../Modal/DeleteModal";
+import EditUserModal from "../Modal/EditUserModal";
 
 const StyledRow = styled.div`
   cursor: default;
@@ -26,6 +27,7 @@ const RowCell = styled.div`
 
 const Row = (props) => {
   const [isDelete, setIsDelete] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [selected, setSelected] = useState(false);
   const userCtx = useContext(UserContext);
 
@@ -33,14 +35,22 @@ const Row = (props) => {
     (org) => org.id === props.organisationId
   );
 
-  const closeHandler = () => {
+  const openEditHandler = () => {
+    setIsEdit(true);
+  };
+
+  const clouseEditHandler = () => {
+    setIsEdit(false);
+  };
+
+  const closeDeleteHandler = () => {
     userCtx.addSelectedUser(props.id);
     setIsDelete(false);
   };
 
-  const openHandler = () => {
+  const openDeleteHandler = () => {
     setIsDelete(true);
-    if(!selected){
+    if (!selected) {
       userCtx.addSelectedUser(props.id);
     }
   };
@@ -66,16 +76,19 @@ const Row = (props) => {
         <FontAwesomeIcon
           style={{ cursor: "pointer" }}
           icon={faPencilAlt}
-          onClick={() => console.log("Редактировать")}
+          onClick={openEditHandler}
         />
         <FontAwesomeIcon
           style={{ cursor: "pointer" }}
           icon={faTrashAlt}
-          onClick={openHandler}
+          onClick={openDeleteHandler}
         />
       </RowCell>
       {isDelete && (
-        <DeleteModal onClose={closeHandler} onDelete={deleteHandler} />
+        <DeleteModal onClose={closeDeleteHandler} onDelete={deleteHandler} />
+      )}
+      {isEdit && (
+        <EditUserModal onClose={clouseEditHandler} user={props.user}/>
       )}
     </StyledRow>
   );

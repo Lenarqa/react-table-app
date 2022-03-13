@@ -25,6 +25,7 @@ const Table = (props) => {
             name={name}
             organisationId={user.organisationId}
             eMail={user.email}
+            user={user}
           />
         );
       })}
