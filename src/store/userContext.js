@@ -9,6 +9,8 @@ export const UserContext = React.createContext({
   addUser: () => {},
   addSelectedUser: (id) => {},
   deleteUser: () => {},
+  isSelected: (userId) => {},
+  // removeSelectedUserIfModalClose: () => {},
 });
 
 const UserContextProvider = (props) => {
@@ -44,6 +46,7 @@ const UserContextProvider = (props) => {
   };
 
   const selectUserHandler = (userId) => {
+    console.log("selectedId = ", userId);
     setSelectedUsers((prev) => {
       let newUsersId = [];
       if (prev.includes(userId)) {
@@ -53,17 +56,29 @@ const UserContextProvider = (props) => {
         return [...prev, userId];
       }
     });
+    console.log(selectedUsers);
   };
 
-  const deleteSelectedUsersHandler = (userId) => {
+  const removeSelectedUserIfModalClose = () =>{
+    setSelectedUsers(prev => prev.pop());
+  }
+
+  const isSelectedHadler = (userId) => {
+    if(selectedUsers.includes(userId)){
+      return true;
+    }else {
+      return false;
+    }
+  }
+
+  const deleteSelectedUsersHandler = () => {
+    console.log(selectedUsers);
     setUsers((prev) => {
-      let updatedUsers;
       selectedUsers.map((id) => {
         prev = prev.filter((user) => user.id !== id);
       });
       return prev;
     });
-    console.log(users);
     setSelectedUsers([]);
   };
 
@@ -74,6 +89,8 @@ const UserContextProvider = (props) => {
     addUser: addUserHandler,
     addSelectedUser: selectUserHandler,
     deleteUser: deleteSelectedUsersHandler,
+    isSelected: isSelectedHadler,
+    // removeSelectedUserIfModalClose: removeSelectedUserIfModalClose
   };
 
   return (

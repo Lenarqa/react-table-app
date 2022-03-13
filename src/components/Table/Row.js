@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../store/userContext";
+import DeleteModal from "../Modal/DeleteModal";
 
 const StyledRow = styled.div`
   cursor: default;
@@ -24,12 +25,25 @@ const RowCell = styled.div`
 `;
 
 const Row = (props) => {
-  const userCtx = useContext(UserContext);
+  const [isDelete, setIsDelete] = useState(false);
   const [selected, setSelected] = useState(false);
+  const userCtx = useContext(UserContext);
 
   const curOrganisation = userCtx.organisation.find(
     (org) => org.id === props.organisationId
   );
+
+  const closeHandler = () => {
+    userCtx.addSelectedUser(props.id);
+    setIsDelete(false);
+  };
+
+  const openHandler = () => {
+    setIsDelete(true);
+    if(!selected){
+      userCtx.addSelectedUser(props.id);
+    }
+  };
 
   const selectHandler = () => {
     setSelected((prev) => !prev);
@@ -37,9 +51,9 @@ const Row = (props) => {
   };
 
   const deleteHandler = () => {
-    props.onDelete();
-    userCtx.addSelectedUser(props.id);
-  }
+    userCtx.deleteUser();
+    setIsDelete(false);
+  };
 
   return (
     <StyledRow selected={selected}>
@@ -57,9 +71,12 @@ const Row = (props) => {
         <FontAwesomeIcon
           style={{ cursor: "pointer" }}
           icon={faTrashAlt}
-          onClick={deleteHandler}
+          onClick={openHandler}
         />
       </RowCell>
+      {isDelete && (
+        <DeleteModal onClose={closeHandler} onDelete={deleteHandler} />
+      )}
     </StyledRow>
   );
 };
