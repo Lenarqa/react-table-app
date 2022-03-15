@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import Row from "./Row";
 import TableHeader from "./TableHeader";
@@ -14,6 +14,7 @@ const Table = (props) => {
   return (
     <StyledTable>
       <TableHeader />
+
       {props.users.map((user) => {
         const name = `${user.firstName} ${user.lastName
           .toString()

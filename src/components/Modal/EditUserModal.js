@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../../store/userContext";
 import Button from "../UI/Button";
+import ErrorText from "../UI/ErrorText";
 
 const StyledEditUserModar = styled.form`
   width: 25rem;
@@ -76,6 +77,8 @@ const EditUserModal = (props) => {
   const [organisationId, setOrganisationId] = useState(
     props.user.organisationId
   );
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("Что то пошло не так...");
   const [email, setEmail] = useState(props.user.email);
 
   const validationHandler = (e) => {
@@ -88,11 +91,15 @@ const EditUserModal = (props) => {
       organisationId === "" ||
       email.trim() === ""
     ) {
+      setErrorMsg("Не все поля заполнены!");
+      setIsError(true);
       return;
     }
 
     if (!email.includes("@")) {
-        console.log("Неправильный эмейл");
+      setErrorMsg("Поле E-mail обязательно должно содержать символ @");
+      setIsError(true);
+      return;
     }
     console.log(organisationId);
 
@@ -109,26 +116,31 @@ const EditUserModal = (props) => {
 
   const changeFirstNameHandler = (e) => {
     e.preventDefault();
+    setIsError(false);
     setFirstName(e.target.value);
   };
 
   const changeLastNameHandler = (e) => {
     e.preventDefault();
+    setIsError(false);
     setLastName(e.target.value);
   };
 
   const changeMiddleNameHandler = (e) => {
     e.preventDefault();
+    setIsError(false);
     setMiddleName(e.target.value);
   };
 
   const changeOrganisationIdHandler = (e) => {
     e.preventDefault();
+    setIsError(false);
     setOrganisationId(e.target.value);
   };
 
   const changeEmailHandler = (e) => {
     e.preventDefault();
+    setIsError(false);
     setEmail(e.target.value);
   };
 
@@ -189,6 +201,7 @@ const EditUserModal = (props) => {
           />
         </div>
       </DataInputs>
+      {isError && <ErrorText>{errorMsg}</ErrorText>}
       <Actions>
         <Button type="submit">Ок</Button>
         <Button onClick={props.onClose}>Отмена</Button>
