@@ -5,6 +5,7 @@ import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../store/userContext";
 import DeleteModal from "../Modal/DeleteModal";
 import EditUserModal from "../Modal/EditUserModal";
+import { useTransition, animated, Transition, config } from "react-spring";
 
 const StyledRow = styled.div`
   cursor: default;
@@ -31,7 +32,11 @@ const Row = (props) => {
   const [selected, setSelected] = useState(false);
   const userCtx = useContext(UserContext);
 
-  console.log(typeof props.organisationId);
+  const isDeleteTransition = useTransition(isDelete, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
 
   const curOrganisation = userCtx.organisation.find(
     (org) => org.id === props.organisationId
@@ -46,6 +51,7 @@ const Row = (props) => {
   };
 
   const closeDeleteHandler = () => {
+    console.log("Close");
     userCtx.addSelectedUser(props.id);
     setIsDelete(false);
   };
@@ -86,12 +92,38 @@ const Row = (props) => {
           onClick={openDeleteHandler}
         />
       </RowCell>
-      {isDelete && (
-        <DeleteModal onClose={closeDeleteHandler} onDelete={deleteHandler} />
+
+      {isDeleteTransition((style, item) =>
+        item ? (
+          <animated.div style={style}>
+            <DeleteModal
+              onClose={closeDeleteHandler}
+              onDelete={deleteHandler}
+            />
+          </animated.div>
+        ) : (
+          ""
+        )
       )}
-      {isEdit && (
-        <EditUserModal onClose={clouseEditHandler} user={props.user}/>
-      )}
+
+      <Transition
+        items={isEdit}
+        from={{ opacity: 0 }}
+        enter={{ opacity: 1 }}
+        leave={{ opacity: 0 }}
+      >
+        {(styles, item) =>
+          item && (
+            <animated.div style={styles}>
+              <EditUserModal onClose={clouseEditHandler} user={props.user} />
+            </animated.div>
+          )
+        }
+      </Transition>
+
+      {/* {isEdit && (
+        <EditUserModal onClose={clouseEditHandler} user={props.user} />
+      )} */}
     </StyledRow>
   );
 };

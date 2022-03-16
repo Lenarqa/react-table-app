@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { UserContext } from "../../store/userContext";
 import Button from "../UI/Button";
 import ErrorText from "../UI/ErrorText";
+import { Transition } from "react-transition-group";
 
 const StyledEditUserModar = styled.form`
   width: 25rem;
@@ -201,7 +202,9 @@ const EditUserModal = (props) => {
           />
         </div>
       </DataInputs>
-      {isError && <ErrorText>{errorMsg}</ErrorText>}
+      <Transition in={isError} timeout={1000}>
+        {(state) => <ErrorText state={state}>{errorMsg}</ErrorText>}
+      </Transition>
       <Actions>
         <Button type="submit">Ок</Button>
         <Button onClick={props.onClose}>Отмена</Button>

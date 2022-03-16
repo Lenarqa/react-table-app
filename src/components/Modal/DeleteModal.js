@@ -3,6 +3,11 @@ import styled from "styled-components";
 import Button from "../UI/Button";
 
 const StyledDelete = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
   position: absolute;
   top: 50%;
   left: 50%;
@@ -12,11 +17,6 @@ const StyledDelete = styled.div`
   height: 10rem;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 `;
 
 const Header = styled.header`

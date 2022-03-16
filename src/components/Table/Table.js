@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Row from "./Row";
 import TableHeader from "./TableHeader";
 
+
 const StyledTable = styled.div`
   display: flex;
   flex-direction: column;
@@ -14,7 +15,6 @@ const Table = (props) => {
   return (
     <StyledTable>
       <TableHeader />
-
       {props.users.map((user) => {
         const name = `${user.firstName} ${user.lastName
           .toString()
