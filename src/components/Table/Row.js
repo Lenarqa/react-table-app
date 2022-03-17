@@ -51,7 +51,6 @@ const Row = (props) => {
   };
 
   const closeDeleteHandler = () => {
-    console.log("Close");
     userCtx.addSelectedUser(props.id);
     setIsDelete(false);
   };
@@ -120,10 +119,6 @@ const Row = (props) => {
           )
         }
       </Transition>
-
-      {/* {isEdit && (
-        <EditUserModal onClose={clouseEditHandler} user={props.user} />
-      )} */}
     </StyledRow>
   );
 };

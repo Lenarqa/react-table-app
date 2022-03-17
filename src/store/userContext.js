@@ -59,7 +59,6 @@ const UserContextProvider = (props) => {
   };
 
   const selectUserHandler = (userId) => {
-    console.log("selectedId = ", userId);
     setSelectedUsers((prev) => {
       let newUsersId = [];
       if (prev.includes(userId)) {

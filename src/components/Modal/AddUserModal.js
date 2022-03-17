@@ -132,9 +132,13 @@ const AddUserModal = (props) => {
         <div>
           <label htmlFor="organisationId">Организация</label>
           <select id="organisationId" ref={organisationIdRef}>
-            <option key={0} value={0}>Выберите организацию</option>
+            <option key={0} value={0}>
+              Выберите организацию
+            </option>
             {userCtx.organisation.map((org) => (
-              <option key={org.id+1} value={org.id}>{org.shortName}</option>
+              <option key={org.id + 1} value={org.id}>
+                {org.shortName}
+              </option>
             ))}
           </select>
         </div>
