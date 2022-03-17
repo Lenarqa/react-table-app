@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Row from "./Row";
 import TableHeader from "./TableHeader";
 
-
 const StyledTable = styled.div`
   display: flex;
   flex-direction: column;

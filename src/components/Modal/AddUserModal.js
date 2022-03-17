@@ -1,7 +1,9 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../../store/userContext";
 import Button from "../UI/Button";
+import ErrorText from "../UI/ErrorText";
+import { Transition } from "react-transition-group";
 
 const StyledAddUserModar = styled.form`
   width: 25rem;
@@ -69,6 +71,8 @@ const Actions = styled.div`
 
 const AddUserModal = (props) => {
   const userCtx = useContext(UserContext);
+  const [errorMsg, setErrorMsg] = useState("Что то пошло не так...");
+  const [isError, setIsError] = useState(false);
 
   const firstNameRef = useRef("");
   const lastNameRef = useRef("");
@@ -92,11 +96,14 @@ const AddUserModal = (props) => {
       organisationId === "" ||
       email.trim() === ""
     ) {
+      setErrorMsg("Не все поля заполнены!");
+      setIsError(true);
       return;
     }
 
     if (!email.includes("@")) {
-      console.log("Нет собачки!");
+      setErrorMsg("Поле E-mail обязательно должно содержать символ @");
+      setIsError(true);
       return;
     }
 
@@ -136,6 +143,9 @@ const AddUserModal = (props) => {
           <input id="email" type="text" ref={emailRef} />
         </div>
       </DataInputs>
+      <Transition in={isError} timeout={1000}>
+        {(state) => <ErrorText state={state}>{errorMsg}</ErrorText>}
+      </Transition>
       <Actions>
         <Button type="submit">Ок</Button>
         <Button onClick={props.onClose}>Отмена</Button>
